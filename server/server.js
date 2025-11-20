@@ -24,6 +24,25 @@ mongoose.connect(DB_URL)
     .then(() => console.log('MongoDB connection established succesfully!'))
     .catch(err => console.error('MongoDB connection error:', err));
 
+// Define the Schema (Flashcard structure)
+const flashcardSchema = new mongoose.Schema({
+    question: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    answer: {
+        type: String,
+        requiered: true,
+        trim: true
+    },
+    // Timestamps for createdAt and updatedAt
+}, { timestamps: true });
+
+// Create the Model
+// The Model is what you use to interact with the database
+const Flashcard = mongoose.model('Flashcard', flashcardSchema);
+
 // --- API ROUTES ---
 
 // 7. Update app.listen to only run if the DB connects
@@ -31,14 +50,16 @@ app.listen(PORT, () => {
     console.log('server is running on http://localhost:' + PORT);
 });
 
-// 8. Define a simple route to test the server
-app.get('/', (req, res) => {
-    res.send('Flashccard API is running fine. no worries. harika!')
-});
+
 
 // Route to fetch all flashcards (this is existing API endpoint)
-app.get('/api/cards', (req, res) => {
-    // For demonstration, sending a static array of flashcards
-    // In a real application, you would fetch this data from MongoDB
-    res.json([]);
+app.get('/api/cards', async (req, res) => {
+    try {
+        // use the Mongoose Model to find All documents in the Flashcard collection
+        const cards = await Flashcard.find({});
+        res.json(cards);
+    } catch (error) {
+        // Handle any errors during the database query
+        res.status(500).json({message: "Error fetching flashcards", error: error.message});
+    }
 });
