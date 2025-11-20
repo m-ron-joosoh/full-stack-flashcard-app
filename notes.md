@@ -33,6 +33,10 @@ git config --global user.name "Your Name"
  branch -M main 
  git push -u origin main
 ```
+for setting url for new repository
+```
+git remote set-url origin git://new.url.here
+```
 
 encountering error ```error: failed to push some refs to 'https://github.com/m-ron-joosoh/full-stack-flashcard-app'```
 
@@ -153,6 +157,19 @@ node server.js
 server failed and display 
 ```
 cannot GET
+```
+
+## starting mongo Db
+1. created mongoDB atlas account using google account
+1. Your current IP address (182.62.207.87) 
+1. p: rx78Gunduz un: shinhayate40_db_user
+1. install mongoose in server folder
+```
+npm install mongoose
+```
+1. get the connection string for vs code
+```
+mongodb+srv://shinhayate40_db_user:<db_password>@cluster0.s0cnnib.mongodb.net/
 ```
 
 ## **questions that arised**:-

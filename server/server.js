@@ -3,32 +3,42 @@
 // 1. Import the Express framework
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
-// 2. Initialize the application
+// 2. Define your connections string (replace with your own if needed)
+const DB_URL = 'mongodb+srv://shinhayate40_db_user:rx78Gunduz@cluster0.s0cnnib.mongodb.net/flashcardDB?retryWrites=true&w=majority'
+// name the database flascardDB
+
+// 3. Initialize the application
 const app = express();
 const PORT = 5000;// Use different port than React app
 
-// 3. Middleware to handle CORS
+// 4. Middleware to handle CORS
 app.use(cors());
 
-// 4. Add built-in middleware to parse JSON request bodies
+// 5. Add built-in middleware to parse JSON request bodies
 app.use(express.json()); 
 
-// Dummy data
-const flashcardData = [
-    { id: 1, question: 'What is React?', answer: 'A JavaScript library for building user interfaces.' },
-    { id: 2, question: 'What is a component?', answer: 'A reusable piece of UI in React.' },
-    { id: 3, question: 'What is state in React?', answer: 'An object that determines how a component renders and behaves.' },
-];
+// 6. Connect to MongoDB using Mongoose
+mongoose.connect(DB_URL)
+    .then(() => console.log('MongoDB connection established succesfully!'))
+    .catch(err => console.error('MongoDB connection error:', err));
 
 // --- API ROUTES ---
 
-// 4. Test route to verify server is working
-app.get('/api/cards', (req, rest) => {
-    rest.json(flashcardData);
-});
-
-
+// 7. Update app.listen to only run if the DB connects
 app.listen(PORT, () => {
     console.log('server is running on http://localhost:' + PORT);
+});
+
+// 8. Define a simple route to test the server
+app.get('/', (req, res) => {
+    res.send('Flashccard API is running fine. no worries. harika!')
+});
+
+// Route to fetch all flashcards (this is existing API endpoint)
+app.get('/api/cards', (req, res) => {
+    // For demonstration, sending a static array of flashcards
+    // In a real application, you would fetch this data from MongoDB
+    res.json([]);
 });
