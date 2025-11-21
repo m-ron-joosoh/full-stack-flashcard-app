@@ -161,7 +161,6 @@ cannot GET
 
 ## starting mongo Db
 1. created mongoDB atlas account using google account
-1. Your current IP address (182.62.207.87) 
 1. install mongoose in server folder
 ```
 npm install mongoose
@@ -171,7 +170,13 @@ npm install mongoose
 mongodb+srv://shinhayate40_db_user:<db_password>@cluster0.s0cnnib.mongodb.net/
 ```
 
-
+### hiding mongo DB sensitive info
+1. create .env file
+1. add .env to gitignore
+1. install dotenv in server file
+```
+npm install dotenv
+```
 
 ## **questions that arised**:-
 - what is object destructurinng in react?

@@ -1,4 +1,5 @@
 // server.js
+require('dotenv').config({path: '../.env'});
 
 // 1. Import the Express framework
 const express = require('express');
@@ -6,8 +7,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 
 // 2. Define your connections string (replace with your own if needed)
-const DB_URL = 'mongodb+srv://shinhayate40_db_user:rx78Gunduz@cluster0.s0cnnib.mongodb.net/flashcardDB?retryWrites=true&w=majority'
-// name the database flascardDB
+const DB_URL = process.env.MONGO_DB_URL;
+
 
 // 3. Initialize the application
 const app = express();
@@ -63,3 +64,27 @@ app.get('/api/cards', async (req, res) => {
         res.status(500).json({message: "Error fetching flashcards", error: error.message});
     }
 });
+
+// Route to create a new flashcard (POST request)
+app.post('/api/cards', async (req, res) => {
+    // Get the data sent from the client (React app)
+    const { question, answer } = req.body;
+
+    try {
+        // Create a new document using the Mongoose Model
+        const newCard = new Flashcard({
+            question: question,
+            answer: answer
+        });
+
+        // Save the new document to the database
+        await newCard.save();
+
+        // send the  newly created card back to client
+        res.status(201).json(newCard);// 201 = created
+    } catch (error) {
+        // Handle errors (e.g., if question or answer is missing)
+        res.status(500).json({ message: "Error creating flashcard", error: error.message });
+    }
+})
+
