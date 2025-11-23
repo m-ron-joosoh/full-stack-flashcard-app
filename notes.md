@@ -178,6 +178,14 @@ mongodb+srv://shinhayate40_db_user:<db_password>@cluster0.s0cnnib.mongodb.net/
 npm install dotenv
 ```
 
+### accidently pushed .env
+solution:
+remove .env cache
+```
+git rm --cached .env
+```
+recommit and push with --force
+
 ## **questions that arised**:-
 - what is object destructurinng in react?
 - what is props (an object?)

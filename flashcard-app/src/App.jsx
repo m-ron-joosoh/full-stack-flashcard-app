@@ -3,6 +3,7 @@
 //  import your component
 import Header from './components/Header';
 import Flashcard from './components/Flashcard';
+import NewCardForm from './components/NewCardForm';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -11,6 +12,8 @@ function App() {
 
   // 3. New state to track loading status;
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
  
 
@@ -35,8 +38,11 @@ function App() {
     fetchFlashcardData();
   }, []); // empty dependency array means this runs once on mount
    
- // --- logic for single card display and navigation ---
-  const [currentIndex, setCurrentIndex] = useState(0);
+    // function to handle new card creation
+    const handleCardCreated = (newCard) => {
+      setFlashcardData(prevDeck => [...prevDeck, newCard]);
+      setCurrentIndex(flashcardData.length); // move to the newly added card
+    }
 
   //  The function to go to the next card
   const handleNextCard = () => {
@@ -52,7 +58,14 @@ function App() {
   const currentCard = flashcardData[currentIndex];
 
   return (
-    <div className="App">
+    <div className="app-container">
+      <h1>Flashcard Reviewer</h1>
+
+      {/* INTEGRATE THE NEW FORM HERE */}
+      <NewCardForm onCardCreated={handleCardCreated} />
+
+      <hr />
+
       <Header />
       <div className="card-list-container">
         {/* Display loading message or the card */}
